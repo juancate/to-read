@@ -1,0 +1,19 @@
+-#views/delete.haml
+
+%div.container
+  %div.panel
+    %div.panel-body
+      %div.panel.panel-primary
+        %div.panel-heading
+          %h2.panel-title Delete
+        %div.panel-body
+          %form{:action => @action, :method => "post"}
+            %input{:type => "hidden", :name => "_method", :value => "delete"}
+
+            %div.form-group
+              %p
+                Are you sure?
+              %button{:type => "submit", :class => "btn btn-danger"}
+                Yes, Delete It!
+              %a{:href => "/", :class => "btn btn-default"}
+                Cancel

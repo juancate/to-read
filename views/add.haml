@@ -1,0 +1,30 @@
+-#views/add.haml
+
+%div.container
+  %div.panel
+    %div.panel-body
+      %div.panel.panel-primary
+        %div.panel-heading
+          %h2.panel-title= @item.nil? ? 'Create' : 'Edit'
+
+        %div.panel-body
+          %form{:action => @action, :method => "post"}
+            -if not @item.nil?
+              %input{:type => "hidden", :name => "_method", :value => "put"}
+
+            %div.col-lg-6
+              %div.form-group
+                %label{:for => "name", :class => "label label-default"} Name
+                %input{:type => "text", :id => "name",
+                       :placeholder => "Article title...", :name => "item[name]",
+                       :class => "form-control", :value => @name_value}
+
+                %label{:for => "link", :class => "label label-default"} Link
+                %input{:type => "text", :id => "link",
+                       :placeholder => "Link url...", :name => "item[link]",
+                       :class => "form-control", :value => @link_value}
+
+              %button{:type => "submit", :class => "btn btn-primary"}
+                =@button_value
+
+      %a{:href => "/", :class => "btn btn-default"} Back
