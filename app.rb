@@ -3,26 +3,28 @@ require 'sinatra/activerecord'
 require 'haml'
 
 set :database, 'sqlite3:///read.db'
-set :haml, :format => :html5
+set :haml, :format => :html5, :layout => :layout
 
 class Item < ActiveRecord::Base
+  validates :name, :presence => true
+  validates :link, :presence => true, :uniqueness => true
 end
 
 # Index
 get '/' do
-  #@items = Item.all
   @items = Item.order("created_at ASC")
-  haml :index, :layout => :layout
+  haml :index
 end
 
 # Create view
 get '/add' do
+  @title = "Create"
   @action = "/items"
   @button_value = "Save"
   @name_value = ""
   @link_value = ""
 
-  haml :add, :layout => :layout
+  haml :add
 end
 
 # Create
@@ -32,19 +34,23 @@ post '/items' do
   if @item.save
     redirect '/'
   else
-    haml :add, :layout => :layout
+    @title = "Create"
+    @action = "/items"
+    @button_value = "Save"
+    haml :add
   end
 end
 
 # Edit view
 get '/:id/edit' do
   @item = Item.find(params[:id])
+  @title = "Edit"
   @action = "/items/#{@item.id}"
   @button_value = "Edit"
   @name_value = @item.name
   @link_value = @item.link
 
-  haml :add, :layout => :layout
+  haml :add
 end
 
 # Delete view
@@ -53,7 +59,7 @@ get '/:id/delete' do
 
   if @item
     @action = "/#{@item.id}"
-    haml :delete, :layout => :layout
+    haml :delete
   end
 end
 
@@ -72,6 +78,6 @@ put '/items/:id' do
   if @item.update_attributes(params[:item])
     redirect '/'
   else
-    haml :add, :layout => :layout
+    haml :add
   end
 end

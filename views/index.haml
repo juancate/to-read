@@ -14,9 +14,32 @@
                :class => "btn btn-sm btn-default",
                :title => "Edit"}
               %span{:class => "glyphicon glyphicon-wrench"}
-            %a{:href => "/#{item.id}/delete",
-               :class => "btn btn-sm btn-danger",
-               :title => "Delete"}
+            %a{:href => "#",
+               :class => "delete btn btn-sm btn-danger",
+               :title => "Delete",
+               :data => {:id => "#{item.id}"}}
               %span{:class => "glyphicon glyphicon-remove"}
     %a{:href => '/add', :class => "btn btn-primary"}
       Add new
+
+%div{:class => "modal fade", :id => "delete_modal", :role => "dialog",
+     :tabedindex => -1,
+     :aria => {:labelledby => "delete_modal_label", :hidden => "true"}}
+  %div.modal-dialog
+    %div.modal-content
+      %div.modal-header
+        %button.close{:type => "button",
+                      :data => {:dismiss => "modal"},
+                      :aria => {:hidden => "true"}}
+          &times;
+        %h4.modal-title{:id => "delete_modal_label"} Delete Link
+      %div.modal-body
+        %span You are about to delete this link. Are you sure?
+      %div.modal-footer
+        %button{:type => "button", :class => "btn btn-default",
+                :data => {:dismiss => "modal"}}
+          Cancel
+        %a{:href => "#", :class => "btn btn-danger"}
+          Yes, Delete it!
+
+%script(src='/js/delete_item.js')

@@ -5,11 +5,12 @@
     %div.panel-body
       %div.panel.panel-primary
         %div.panel-heading
-          %h2.panel-title= @item.nil? ? 'Create' : 'Edit'
+          %h2.panel-title
+            =@title
 
         %div.panel-body
           %form{:action => @action, :method => "post"}
-            -if not @item.nil?
+            -if @title == 'Edit'
               %input{:type => "hidden", :name => "_method", :value => "put"}
 
             %div.col-lg-6
