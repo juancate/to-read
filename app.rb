@@ -3,11 +3,11 @@ require 'sinatra/activerecord'
 require 'haml'
 
 set :database, 'sqlite3:///read.db'
-set :haml, :format => :html5, :layout => :layout
+set :haml, format: :html5, layout: true
 
 class Item < ActiveRecord::Base
-  validates :name, :presence => true
-  validates :link, :presence => true, :uniqueness => true
+  validates :name, presence: true
+  validates :link, presence: true, uniqueness: true
 end
 
 # Index

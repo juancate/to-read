@@ -1,9 +1,9 @@
 .tabbable
-  %ul.nav.nav-tabs{id: "my_tabs"}
+  %ul.nav.nav-tabs#my_tabs
     %li.active
-      %a{:href => "#pending", :data => {toggle: 'tab'}}
+      %a{href: "#pending", data: {toggle: 'tab'}}
         Dashboard
     %li
-      %a{:href => "#done", :data => {toggle: 'tab'}}
+      %a{href: "#done", data: {toggle: 'tab'}}
         Already Done
 

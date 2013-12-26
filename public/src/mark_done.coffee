@@ -14,4 +14,3 @@ mark_done = (id) ->
       do prepareDelete
 
 root.mark_done = mark_done
-
