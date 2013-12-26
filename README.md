@@ -7,10 +7,10 @@ pending to read links.
 It uses `sqlite3` as database. To install follow these steps:
 
     $ bundle install
-    $ rake db:migrate
+    $ rake db:schema:load
 
-In order to run the web server run:
+To run the web server run:
 
-    $ rackup
+    $ bundle exec rackup -p 9292 config.ru
 
 That's all for now.
