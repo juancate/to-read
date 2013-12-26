@@ -19,13 +19,16 @@
   %body
     %h1 To Read App
 
-    %ul.nav.nav-tabs
-      %li.active
-        %a{:href => "#"} Dashboard
-      %li
-        %a{:href => "#"} Already Done
+    .tabbable
+      %ul.nav.nav-tabs{id: "my_tabs"}
+        %li.active
+          %a{:href => "#pending", :data => {toggle: 'tab'}}
+            Dashboard
+        %li
+          %a{:href => "#done", :data => {toggle: 'tab'}}
+            Already Done
 
-    = yield
+      = yield
 
     -# bootstrap js
     %script(src="/js/bootstrap.js")

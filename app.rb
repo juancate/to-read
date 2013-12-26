@@ -12,8 +12,19 @@ end
 
 # Index
 get '/' do
-  @items = Item.order("created_at ASC")
+  @items = Item.where(done: false).order created_at: :asc
+  @done_items = Item.where(done: true).order created_at: :asc
   haml :index
+end
+
+# Mark done
+put '/:id/done' do
+  item = Item.find(params[:id])
+  item.done = true
+
+  if item.save
+    redirect '/'
+  end
 end
 
 # Create view
