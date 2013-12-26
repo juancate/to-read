@@ -64,16 +64,6 @@ get '/:id/edit' do
   haml :add
 end
 
-# Delete view
-get '/:id/delete' do
-  @item = Item.find(params[:id])
-
-  if @item
-    @action = "/#{@item.id}"
-    haml :delete
-  end
-end
-
 # Delete
 delete '/:id' do
   @item = Item.find(params[:id])
