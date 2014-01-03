@@ -5,6 +5,7 @@ require 'haml'
 set :database, 'sqlite3:///read.db'
 set :haml, format: :html5, layout: true
 
+# Item model
 class Item < ActiveRecord::Base
   validates :name, presence: true
   validates :link, presence: true, uniqueness: true
@@ -19,45 +20,43 @@ end
 
 # Mark done
 put '/:id/done' do
-  item = Item.find(params[:id])
+  item = Item.find params[:id]
   item.done = true
 
-  if item.save
-    redirect '/'
-  end
+  redirect '/' unless item.save
 end
 
 # Create view
 get '/add' do
-  @title = "Create"
-  @action = "/items"
-  @button_value = "Save"
-  @name_value = ""
-  @link_value = ""
+  @title = 'Create'
+  @action = '/items'
+  @button_value = 'Save'
+  @name_value = ''
+  @link_value = ''
 
   haml :add
 end
 
 # Create
 post '/items' do
-  @item = Item.new(params[:item])
+  @item = Item.new params[:item]
 
   if @item.save
     redirect '/'
   else
-    @title = "Create"
-    @action = "/items"
-    @button_value = "Save"
+    @title = 'Create'
+    @action = '/items'
+    @button_value = 'Save'
     haml :add
   end
 end
 
 # Edit view
 get '/:id/edit' do
-  @item = Item.find(params[:id])
-  @title = "Edit"
+  @item = Item.find params[:id]
+  @title = 'Edit'
   @action = "/items/#{@item.id}"
-  @button_value = "Edit"
+  @button_value = 'Edit'
   @name_value = @item.name
   @link_value = @item.link
 
@@ -66,17 +65,15 @@ end
 
 # Delete
 delete '/:id' do
-  @item = Item.find(params[:id])
+  item = Item.find params[:id]
 
-  if @item.destroy
-    redirect '/'
-  end
+  redirect '/' unless item.destroy
 end
 
 # Edit
 put '/items/:id' do
-  @item = Item.find(params[:id])
-  if @item.update_attributes(params[:item])
+  @item = Item.find params[:id]
+  if @item.update_attributes params[:item]
     redirect '/'
   else
     haml :add
