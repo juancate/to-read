@@ -11,6 +11,6 @@ mark_done = (id) ->
                     <td>#{delete_button.html()}</td></tr>"
 
       do element.closest('tr').remove
-      do prepareDelete
+      do prepare_delete
 
 root.mark_done = mark_done

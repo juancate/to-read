@@ -16,7 +16,7 @@
       table = $('#done_table');
       table.append("<tr><td>" + (item.html()) + "</td>                    <td>" + (delete_button.html()) + "</td></tr>");
       element.closest('tr').remove();
-      return prepareDelete();
+      return prepare_delete();
     });
   };
 

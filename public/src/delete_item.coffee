@@ -1,6 +1,6 @@
 root = exports ? this
 
-deleteRequest = (id) ->
+delete_request = (id) ->
   $('#delete_modal').modal 'toggle'
 
   $.ajax(type: 'DELETE', url: "/#{id}")
@@ -8,7 +8,7 @@ deleteRequest = (id) ->
       item = $("a.delete[data-id=#{id}]").closest 'tr'
       do item.remove
 
-prepareDelete = ->
+prepare_delete = ->
   $('.delete').on 'click', (e) ->
     do e.preventDefault
     id = $(this).data 'id'
@@ -17,10 +17,10 @@ prepareDelete = ->
 $(document).ready ->
   $('#delete_modal').on 'show.bs.modal', (e) ->
     id = $(this).data 'id'
-    deleteBtn = $(this).find '.btn-danger'
-    deleteBtn.attr 'href', "javascript:deleteRequest(#{id})"
+    delete_btn = $(this).find '.btn-danger'
+    delete_btn.attr 'href', "javascript:delete_request(#{id})"
 
-  do prepareDelete
+  do prepare_delete
 
-root.deleteRequest = deleteRequest
-root.prepareDelete = prepareDelete
+root.delete_request = delete_request
+root.prepare_delete = prepare_delete
