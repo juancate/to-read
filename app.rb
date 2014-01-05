@@ -3,8 +3,10 @@ require 'sinatra/activerecord'
 require 'haml'
 require 'authlogic'
 
+enable :sessions
 set :database, 'sqlite3:///read.db'
 set :haml, format: :html5, layout: true
+I18n.enforce_available_locales = true
 
 # Item model
 class Item < ActiveRecord::Base
@@ -18,7 +20,7 @@ class User < ActiveRecord::Base
 end
 
 # Session model
-class UserSesion < Authlogic::Session::Base
+class UserSession < Authlogic::Session::Base
 end
 
 # Authentication helpers
@@ -105,20 +107,33 @@ end
 
 # Signup controller
 get '/signup' do
-  pass
+  haml :register
+end
+
+post '/signup' do
+  @user = User.new params[:user]
+
+  if @user.save
+    # Flash message
+    redirect '/'
+  else
+    redirect '/register'
+  end
 end
 
 # User session controller
 get '/login' do
+  @user_session = UserSession.new
   haml :login
 end
 
 post '/login' do
+  puts params.inspect
   @user_session = UserSession.new params[:user_session]
   if @user_session.save
-    haml :index
+    redirect '/'
   else
-    # Add flash message
+    # Add Flash message
     redirect '/login'
   end
 end

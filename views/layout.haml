@@ -17,7 +17,7 @@
     %title To Read App
 
   %body
-    %nav.navbar.navbar-inverse{role: 'navigation', style: 'height: 1px;'}
+    %nav.navbar.navbar-default{role: 'navigation'}
       .navbar-header
         %button{type: 'button', class: 'navbar-toggle',
                 data: {toggle: 'collapse', target: '#nav-collapse'}}
@@ -31,13 +31,25 @@
 
       .collapse.navbar-collapse#nav-collapse
         %ul.nav.navbar-nav.navbar-right
-          %li{style: 'border-right: 1px solid #e3e3e3;'}
-            %a{class: 'navbar-link', href:'/signup'} Sign Up
-          %li
-            %a{class: 'navbar-link', href:'/login'} Log In
+          -if current_user
+            %li
+              %p.navbar-text
+                Logged in as
+                %b
+                  =current_user.login
+            %li
+              %a{href: '/logout'} Logout
+          -else
+            %li
+              %a{href: '/signup'} Sign Up
+            %li
+              %a{href: '/login'} Log In
 
-    .container
-      = yield
+    -if current_user
+      .container
+        = yield
+    -else
+      =haml :login
 
     -# bootstrap js
     %script(src='/js/bootstrap.min.js')

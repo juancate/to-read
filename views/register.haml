@@ -1,0 +1,36 @@
+-# views/register.haml
+
+.container
+  .panel
+    .panel-body
+      .panel.panel-primary
+        .panel-heading
+          %h2.panel-title
+            Sign Up
+
+        .panel-body
+          %form{action: '/signup', method: 'post'}
+            .form-group
+              %label{for: 'login', class: 'label label-default'} Username
+              %input{type: 'text', id: 'login', placeholder: 'Username',
+                     name: 'user[login]', class: 'form-control'}
+
+              %label{for: 'email', class: 'label label-default'} E-mail
+              %input{type: 'text', id: 'email', placeholder: 'E-mail',
+                     name: 'user[email]', class: 'form-control'}
+
+              %label{for: 'password', class: 'label label-default'} Password
+              %input{type: 'password', id: 'password', placeholder: 'Password',
+                     name: 'user[password]', class: 'form-control'}
+
+              %label{for: 'password_confirmation',
+                     class: 'label label-default'}
+                Confirm Password
+              %input{type: 'password', id: 'password_confirmation',
+                     placeholder: 'Confirm Password', class: 'form-control',
+                     name: 'user[password_confirmation]'}
+
+            %button{type: 'submit', class: 'btn btn-primary'}
+              Sign Up
+
+      %a{href: '/', class: 'btn btn-default'} Back

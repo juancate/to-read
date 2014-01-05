@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131225013432) do
+ActiveRecord::Schema.define(version: 20140104100855) do
 
   create_table "items", force: true do |t|
     t.string   "name"
@@ -18,6 +18,16 @@ ActiveRecord::Schema.define(version: 20131225013432) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "done",       default: false
+  end
+
+  create_table "users", force: true do |t|
+    t.string   "login",             null: false
+    t.string   "email",             null: false
+    t.string   "crypted_password",  null: false
+    t.string   "password_salt",     null: false
+    t.string   "persistence_token", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end
