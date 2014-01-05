@@ -1,18 +1,18 @@
-.modal.fade{id: "delete_modal", role: "dialog", tabedindex: -1,
-            aria: {labelledby: "delete_modal_label", hidden: "true"}}
+.modal.fade{id: 'delete_modal', role: 'dialog', tabedindex: -1,
+            aria: {labelledby: 'delete_modal_label', hidden: 'true'}}
   .modal-dialog
     .modal-content
       .modal-header
-        %button.close{type: "button",
-                      data: {dismiss: "modal"},
-                      aria: {hidden: "true"}}
+        %button.close{type: 'button',
+                      data: {dismiss: 'modal'},
+                      aria: {hidden: 'true'}}
           &times;
-        %h4.modal-title{id: "delete_modal_label"} Delete Link
+        %h4.modal-title{id: 'delete_modal_label'} Delete Link
       .modal-body
         %span You are about to delete this link. Are you sure?
       .modal-footer
-        %button{type: "button", class: "btn btn-default",
-                data: {dismiss: "modal"}}
+        %button{type: 'button', class: 'btn btn-default',
+                data: {dismiss: 'modal'}}
           Cancel
-        %a{href: "#", class: "btn btn-danger"}
+        %a{href: '#', class: 'btn btn-danger'}
           Yes, Delete it!

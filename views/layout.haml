@@ -5,22 +5,39 @@
 %html
   %head
     -# bootstrap css
-    %link{href: "/css/bootstrap.min.css", rel: "stylesheet"}
-    %link{href: "/css/bootstrap-theme.min.css", rel: "stylesheet"}
+    %link{href: '/css/bootstrap.min.css', rel: 'stylesheet'}
+    %link{href: '/css/bootstrap-theme.min.css', rel: 'stylesheet'}
 
     -# jquery
-    %script(src="/js/jquery-2.0.3.min.js")
+    %script(src='/js/jquery-2.0.3.min.js')
 
-    %meta{name: "viewport",
-          content: "width=device-width, initial-scale=1.0"}
+    %meta{name: 'viewport',
+          content: 'width=device-width, initial-scale=1.0'}
 
     %title To Read App
 
   %body
-    %h1
-      %strong To Read App
+    %nav.navbar.navbar-inverse{role: 'navigation', style: 'height: 1px;'}
+      .navbar-header
+        %button{type: 'button', class: 'navbar-toggle',
+                data: {toggle: 'collapse', target: '#nav-collapse'}}
+          %span.sr-only Toggle navigation
+          %span.icon-bar
+          %span.icon-bar
+          %span.icon-bar
+        %a{class: 'navbar-brand', href:'/'}
+          %span.glyphicon.glyphicon-book
+          To Read App
 
-    = yield
+      .collapse.navbar-collapse#nav-collapse
+        %ul.nav.navbar-nav.navbar-right
+          %li{style: 'border-right: 1px solid #e3e3e3;'}
+            %a{class: 'navbar-link', href:'/signup'} Sign Up
+          %li
+            %a{class: 'navbar-link', href:'/login'} Log In
+
+    .container
+      = yield
 
     -# bootstrap js
-    %script(src="/js/bootstrap.min.js")
+    %script(src='/js/bootstrap.min.js')

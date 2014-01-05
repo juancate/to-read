@@ -5,46 +5,44 @@
 .tab-content
 
   .tab-pane.active.jumbotron#pending
-    .container
-      %table.table.table-hover
-        %th{colspan: "2"} To Read Links
-        - @items.each do |item|
-          %tr
-            %td
-              %a{href: item.link, target: "_blank"}
-                =item.name
-            %td
-              %a{href: "javascript:mark_done(#{item.id})",
-                 class: "btn btn-sm btn-success",
-                 title: "Done"}
-                %span{class: "glyphicon glyphicon-ok"}
-              %a{href: "/#{item.id}/edit",
-                 class: "btn btn-sm btn-primary",
-                 title: "Edit"}
-                %span{class: "glyphicon glyphicon-wrench"}
-              %a{href: "#",
-                 class: "delete btn btn-sm btn-danger",
-                 title: "Delete",
-                 data: {id: "#{item.id}"}}
-                %span{class: "glyphicon glyphicon-remove"}
-      %a{href: '/add', class: "btn btn-primary"}
-        Add new
+    %table.table.table-hover
+      %th{colspan: '2'} To Read Links
+      - @items.each do |item|
+        %tr
+          %td
+            %a{href: item.link, target: '_blank'}
+              =item.name
+          %td
+            %a{href: "javascript:mark_done(#{item.id})",
+               class: 'btn btn-sm btn-success',
+               title: 'Done'}
+              %span{class: 'glyphicon glyphicon-ok'}
+            %a{href: "/#{item.id}/edit",
+               class: 'btn btn-sm btn-primary',
+               title: 'Edit'}
+              %span{class: 'glyphicon glyphicon-wrench'}
+            %a{href: '#',
+               class: 'delete btn btn-sm btn-danger',
+               title: 'Delete',
+               data: {id: "#{item.id}"}}
+              %span{class: 'glyphicon glyphicon-remove'}
+    %a{href: '/add', class: 'btn btn-primary'}
+      Add new
 
   .tab-pane.jumbotron#done
-    .container
-      %table.table.table-hover#done_table
-        %th{colspan: "2"} Already Read Links
-        - @done_items.each do |item|
-          %tr
-            %td
-              %a{href: item.link, target: "_blank"}
-                =item.name
-            %td
-              %a{href: "#",
-                 class: "delete btn btn-sm btn-danger",
-                 title: "Delete",
-                 data: {id: "#{item.id}"}}
-                %span{class: "glyphicon glyphicon-remove"}
+    %table.table.table-hover#done_table
+      %th{colspan: '2'} Already Read Links
+      - @done_items.each do |item|
+        %tr
+          %td
+            %a{href: item.link, target: '_blank'}
+              =item.name
+          %td
+            %a{href: '#',
+               class: 'delete btn btn-sm btn-danger',
+               title: 'Delete',
+               data: {id: "#{item.id}"}}
+              %span{class: 'glyphicon glyphicon-remove'}
 
 -# Delete dialog
 =haml :delete_dialog, layout: false

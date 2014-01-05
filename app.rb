@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'sinatra/activerecord'
 require 'haml'
+require 'authlogic'
 
 set :database, 'sqlite3:///read.db'
 set :haml, format: :html5, layout: true
@@ -9,6 +10,28 @@ set :haml, format: :html5, layout: true
 class Item < ActiveRecord::Base
   validates :name, presence: true
   validates :link, presence: true, uniqueness: true
+end
+
+# User model
+class User < ActiveRecord::Base
+  acts_as_authentic
+end
+
+# Session model
+class UserSesion < Authlogic::Session::Base
+end
+
+# Authentication helpers
+helpers do
+  def current_user_session
+    return @current_user_session if defined? @current_user_session
+    @current_user_session = UserSession.find
+  end
+
+  def current_user
+    return @current_user if defined? @current_user
+    @current_user = current_user_session && current_user_session.user
+  end
 end
 
 # Index
@@ -78,4 +101,29 @@ put '/items/:id' do
   else
     haml :add
   end
+end
+
+# Signup controller
+get '/signup' do
+  pass
+end
+
+# User session controller
+get '/login' do
+  haml :login
+end
+
+post '/login' do
+  @user_session = UserSession.new params[:user_session]
+  if @user_session.save
+    haml :index
+  else
+    # Add flash message
+    redirect '/login'
+  end
+end
+
+get '/logout' do
+  current_user_session.destroy
+  redirect '/'
 end

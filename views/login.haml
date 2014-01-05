@@ -1,0 +1,25 @@
+-# views/login.haml
+
+.container
+  .panel
+    .panel-body
+      .panel.panel-primary
+        .panel-heading
+          %h2.panel-title
+            Login
+
+        .panel-body
+          %form{action: '/login', method: 'post'}
+            .form-group
+              %label{for: 'login', class: 'label label-default'} Username
+              %input{type: 'text', id: 'login', placeholder: 'Username',
+                     name: 'user_session[login]', class: 'form-control'}
+
+              %label{for: 'password', class: 'label label-default'} Password
+              %input{type: 'password', id: 'password', placeholder: 'Password',
+                     name: 'user_session[password]', class: 'form-control'}
+
+            %button{type: 'submit', class: 'btn btn-primary'}
+              Login
+
+      %a{href: '/', class: 'btn btn-default'} Back
