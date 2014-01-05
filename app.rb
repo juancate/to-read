@@ -4,6 +4,7 @@ require 'haml'
 require 'authlogic'
 
 enable :sessions
+set :session_secret, 'super secret'
 set :database, 'sqlite3:///read.db'
 set :haml, format: :html5, layout: true
 I18n.enforce_available_locales = true
@@ -12,11 +13,13 @@ I18n.enforce_available_locales = true
 class Item < ActiveRecord::Base
   validates :name, presence: true
   validates :link, presence: true, uniqueness: true
+  belongs_to :user
 end
 
 # User model
 class User < ActiveRecord::Base
   acts_as_authentic
+  has_many :items
 end
 
 # Session model
@@ -38,8 +41,12 @@ end
 
 # Index
 get '/' do
-  @items = Item.where(done: false).order created_at: :asc
-  @done_items = Item.where(done: true).order created_at: :asc
+  return haml :login unless current_user_session
+
+  @items = Item.where done: false, user_id: current_user.id
+  @items = @items.order created_at: :asc
+  @done_items = Item.where done: true, user_id: current_user.id
+  @done_items = @done_items.order created_at: :asc
   haml :index
 end
 
@@ -65,6 +72,7 @@ end
 # Create
 post '/items' do
   @item = Item.new params[:item]
+  @item.user_id = current_user.id
 
   if @item.save
     redirect '/'
@@ -128,7 +136,6 @@ get '/login' do
 end
 
 post '/login' do
-  puts params.inspect
   @user_session = UserSession.new params[:user_session]
   if @user_session.save
     redirect '/'

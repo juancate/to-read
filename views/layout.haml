@@ -45,11 +45,8 @@
             %li
               %a{href: '/login'} Log In
 
-    -if current_user
-      .container
-        = yield
-    -else
-      =haml :login
+    .container
+      = yield
 
     -# bootstrap js
     %script(src='/js/bootstrap.min.js')
