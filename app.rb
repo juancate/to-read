@@ -2,12 +2,17 @@ require 'sinatra'
 require 'sinatra/activerecord'
 require 'haml'
 require 'authlogic'
+require 'rack-flash'
 
 enable :sessions
 set :session_secret, 'super secret'
+
 set :database, 'sqlite3:///read.db'
+set :sever, :puma
 set :haml, format: :html5, layout: true
 I18n.enforce_available_locales = true
+
+use Rack::Flash
 
 # Item model
 class Item < ActiveRecord::Base
@@ -41,18 +46,19 @@ end
 
 # Index
 get '/' do
-  return haml :login unless current_user_session
+  return haml :login unless current_user
 
-  @items = Item.where done: false, user_id: current_user.id
-  @items = @items.order created_at: :asc
-  @done_items = Item.where done: true, user_id: current_user.id
-  @done_items = @done_items.order created_at: :asc
+  @items = Item.where(done: false, user_id: current_user.id)
+               .order(created_at: :asc)
+
+  @done_items = Item.where(done: true, user_id: current_user.id)
+                    .order(created_at: :asc)
   haml :index
 end
 
 # Mark done
 put '/:id/done' do
-  item = Item.find params[:id]
+  item = Item.find(params[:id])
   item.done = true
 
   redirect '/' unless item.save
@@ -60,6 +66,7 @@ end
 
 # Create view
 get '/add' do
+  redirect '/' unless current_user_session
   @title = 'Create'
   @action = '/items'
   @button_value = 'Save'
@@ -71,7 +78,7 @@ end
 
 # Create
 post '/items' do
-  @item = Item.new params[:item]
+  @item = Item.new(params[:item])
   @item.user_id = current_user.id
 
   if @item.save
@@ -86,7 +93,9 @@ end
 
 # Edit view
 get '/:id/edit' do
-  @item = Item.find params[:id]
+  redirect '/' unless current_user_session
+
+  @item = Item.find(params[:id])
   @title = 'Edit'
   @action = "/items/#{@item.id}"
   @button_value = 'Edit'
@@ -98,49 +107,56 @@ end
 
 # Delete
 delete '/:id' do
-  item = Item.find params[:id]
+  item = Item.find(params[:id])
 
   redirect '/' unless item.destroy
 end
 
 # Edit
 put '/items/:id' do
-  @item = Item.find params[:id]
-  if @item.update_attributes params[:item]
+  @item = Item.find(params[:id])
+
+  if @item.update_attributes(params[:item])
     redirect '/'
   else
-    haml :add
+    redirect "/#{params[:id]}/edit"
   end
 end
 
 # Signup controller
 get '/signup' do
+  redirect '/' if current_user_session
   haml :register
 end
 
 post '/signup' do
-  @user = User.new params[:user]
+  @user = User.new(params[:user])
 
   if @user.save
-    # Flash message
+    flash[:notice] = 'Successfully signed up.'
     redirect '/'
   else
+    flash[:error] = { bold: 'Something went wrong.',
+                      body: 'Please try again.' }
     redirect '/register'
   end
 end
 
 # User session controller
 get '/login' do
+  redirect '/' if current_user_session
   @user_session = UserSession.new
   haml :login
 end
 
 post '/login' do
-  @user_session = UserSession.new params[:user_session]
+  @user_session = UserSession.new(params[:user_session])
   if @user_session.save
+    flash[:notice] = 'Successfully logged in.'
     redirect '/'
   else
-    # Add Flash message
+    flash[:error] = { bold: 'Something went wrong.',
+                      body: 'Please try again.' }
     redirect '/login'
   end
 end

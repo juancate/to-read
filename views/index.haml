@@ -1,17 +1,26 @@
 -#views/index.haml
 
+-if flash[:notice]
+  .alert{class: 'alert-success alert-dismissable'}
+    %a{class: 'close', data: {dismiss: 'alert'}, aria: {hidden: true}}
+      &times;
+    %strong= flash[:notice]
+  -flash[:notice] = nil
+
 =haml :tabs, layout: false
 
 .tab-content
 
   .tab-pane.active.jumbotron#pending
     %table.table.table-hover
-      %th{colspan: '2'} To Read Links
+      %th{colspan: '2'}
+        To Read Links
+        %a{href: '/add', class: 'btn-xs btn-primary', title: 'Add new'}
+          %span.glyphicon.glyphicon-plus
       - @items.each do |item|
         %tr
           %td
-            %a{href: item.link, target: '_blank'}
-              =item.name
+            %a{href: item.link, target: '_blank'}= item.name
           %td
             %a{href: "javascript:mark_done(#{item.id})",
                class: 'btn btn-sm btn-success',
@@ -26,7 +35,7 @@
                title: 'Delete',
                data: {id: "#{item.id}"}}
               %span{class: 'glyphicon glyphicon-remove'}
-    %a{href: '/add', class: 'btn btn-primary'}
+    %a{href: '/add', class: 'btn btn-primary', title: 'Add new'}
       Add new
 
   .tab-pane.jumbotron#done
@@ -35,8 +44,7 @@
       - @done_items.each do |item|
         %tr
           %td
-            %a{href: item.link, target: '_blank'}
-              =item.name
+            %a{href: item.link, target: '_blank'}= item.name
           %td
             %a{href: '#',
                class: 'delete btn btn-sm btn-danger',

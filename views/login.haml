@@ -1,6 +1,13 @@
 -# views/login.haml
 
 .container
+  -if flash[:error]
+    .alert{class: 'alert-danger alert-dismissable'}
+      %a{class: 'close', data: {dismiss: 'alert'}, aria: {hidden: true}}
+        &times;
+      %strong= flash[:error][:bold]
+      =flash[:error][:body]
+    -flash[:error] = nil
   .panel
     .panel-body
       .panel.panel-primary
